@@ -1,0 +1,18 @@
+{
+  "trades": [
+    {
+      "asset": "EURUSD",
+      "profit": null,
+      "side": "BUY",
+      "entryPrice": 1.1,
+      "exitPrice": 1.15,
+      "size": 1000,
+      "outcome": "WIN",
+      "entryTime": 1779230348824,
+      "exitTime": 1779230348824
+    }
+  ],
+  "signals": [],
+  "positions": [],
+  "performance": []
+}

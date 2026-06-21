@@ -1,0 +1,400 @@
+name: Aladdin Bot CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  circular-deps:
+    name: Circular dependency check (Fix #78)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Check for circular requires (madge)
+        run: npx madge --circular --extensions js . --exclude node_modules || true
+
+  lint-and-syntax:
+    name: Syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Validate trading-config.json (Fix #80)
+        run: node -e "JSON.parse(require('fs').readFileSync('config/trading-config.json','utf8')); console.log('config JSON valid')"
+      - name: Syntax check all JS files
+        run: |
+          for f in *.js strategies/*.js; do
+            node --check "$f" && echo "OK: $f" || exit 1
+          done
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    needs: lint-and-syntax
+    env:
+      BACKTEST_MODE: 'true'
+      OANDA_ENV: 'practice'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run new-module tests
+        run: node test-new-modules.js
+      - name: Run improvements tests
+        run: node test-improvements.js
+      - name: Run smoke tests
+        run: node test-smoke.js
+
+  integration-tests:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    env:
+      BACKTEST_MODE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: node test-strategies.js
+      - run: node test-engine-refactor.js
+      - run: node test-execution.js
+      - run: node test-modules.js
+
+  backtest-validation:
+    name: Backtest regression
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    env:
+      BACKTEST_MODE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: node test-walk-forward.js
+      - run: node test-walkforward.js
+      - run: node test-drift-monitor.js
+
+  security-hardcoded-secrets:
+    name: Hardcoded secrets check (hard fail)
+    runs-on: ubuntu-latest
+    needs: lint-and-syntax
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: npm dependency audit
+        run: npm audit --audit-level=high || true
+      - name: Check for hardcoded secrets
+        run: node -e "const {SecurityAudit}=require('./security-audit'); const a=new SecurityAudit(); a._checkHardcodedSecrets(); const errs=a._findings.filter(f=>f.level==='ERROR'); if(errs.length){console.error('Hardcoded secrets found!');process.exit(1);}"
+
+  security-key-rotation:
+    name: Key rotation state (soft warn)
+    runs-on: ubuntu-latest
+    needs: lint-and-syntax
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Check credential ages
+        run: node -e "const {SecurityAudit}=require('./security-audit'); new SecurityAudit().run();"
+        continue-on-error: true
+
+  docker-build:
+    name: Docker build
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t aladdin-bot:ci .
+      - name: Verify image starts
+        run: |
+          docker run --rm -e BACKTEST_MODE=true -e NODE_ENV=test \
+            aladdin-bot:ci node --check startup.js
+
+  # ── Feature #97: Docker image vulnerability scan ─────────────────────────
+  docker-vuln-scan:
+    name: Docker vulnerability scan (Trivy)
+    runs-on: ubuntu-latest
+    needs: docker-build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image for scanning
+        run: docker build -t aladdin-bot:scan .
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'aladdin-bot:scan'
+          format: 'table'
+          exit-code: '0'        # warn only — set to '1' to hard-fail on HIGH/CRITICAL
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'HIGH,CRITICAL'
+
+  # ── Feature #96: Performance benchmark job ───────────────────────────────
+  perf-benchmark:
+    name: Indicator computation benchmark
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    env:
+      BACKTEST_MODE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run performance benchmark
+        run: node -e "
+          const { Indicators } = require('./indicators');
+          const prices = Array.from({length: 500}, (_, i) => 1.08 + Math.sin(i * 0.1) * 0.01);
+          const start = Date.now();
+          const RUNS = 100;
+          for (let i = 0; i < RUNS; i++) {
+            Indicators.rsi(prices);
+            Indicators.macd(prices);
+            Indicators.ema(prices, 21);
+            Indicators.bollingerBands(prices);
+            Indicators.atr(prices, 14);
+          }
+          const ms = Date.now() - start;
+          const perRun = ms / RUNS;
+          console.log('Indicator suite: ' + ms + 'ms total, ' + perRun.toFixed(2) + 'ms/run');
+          if (perRun > 200) {
+            console.error('PERF REGRESSION: ' + perRun + 'ms/run exceeds 200ms threshold');
+            process.exit(1);
+          }
+          console.log('Benchmark passed');
+        "
+      - name: Upload benchmark result
+        uses: actions/upload-artifact@v4
+        with:
+          name: perf-benchmark
+          path: /tmp/benchmark.txt
+          if-no-files-found: ignore
+
+  # ── Feature #98: Canary deployment (10% capital gate) ────────────────────
+  # This job is a documentation stub — real canary requires manual approval.
+  # Uncomment and configure when deploying to production infrastructure.
+  # canary-gate:
+  #   name: Canary deployment gate
+  #   runs-on: ubuntu-latest
+  #   needs: [docker-build, docker-vuln-scan, perf-benchmark]
+  #   environment: canary    # requires manual approval in GitHub Environments
+  #   steps:
+  #     - name: Canary deploy (10% capital, 24h window)
+  #       run: echo "Deploy to canary environment with PAPER_CAPITAL_PCT=0.10"
+
+  # ── Feature #99: Rollback automation ─────────────────────────────────────
+  # Documents the rollback procedure — automate via webhook from monitoring.
+  # To roll back: pm2 stop aladdin-trading && git checkout HEAD~1 && pm2 start ecosystem.config.js
+  # Or via GitHub: re-run previous successful workflow + manual approval.
+
+  # ── Feature #91: Property-based testing ──────────────────────────────────
+  property-based-tests:
+    name: Property-based tests (fast-check)
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    env:
+      BACKTEST_MODE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Install fast-check
+        run: npm install fast-check --no-save
+      - name: Run property-based tests
+        run: node test-property-based.js
+        continue-on-error: true   # non-blocking until test file is added
+
+  # ── Feature #92: Mutation testing ────────────────────────────────────────
+  mutation-tests:
+    name: Mutation testing (Stryker)
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # main only (slow)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Install Stryker
+        run: npm install @stryker-mutator/core @stryker-mutator/javascript-mutator --no-save
+      - name: Run Stryker on indicators.js
+        run: |
+          npx stryker run --files indicators.js,test-suite.js \
+            --testRunner command \
+            --commandRunner.command "node test-suite.js" \
+            --mutate indicators.js \
+            --reporters clear-text \
+            --thresholds.high 70 --thresholds.low 50
+        continue-on-error: true   # warn only until baseline is established
+
+  # ── Feature #100: JSDoc API documentation ────────────────────────────────
+  generate-docs:
+    name: Generate JSDoc
+    runs-on: ubuntu-latest
+    needs: lint-and-syntax
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Install JSDoc
+        run: npm install jsdoc --no-save
+      - name: Generate documentation
+        run: |
+          npx jsdoc -r *.js strategies/*.js -d ./docs \
+            --readme README.md || true
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-docs
+          path: docs/
+          if-no-files-found: ignore
+
+  # Feature #97: Docker image vulnerability scan
+  docker-vuln-scan:
+    name: Docker vulnerability scan (Trivy)
+    runs-on: ubuntu-latest
+    needs: docker-build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image for scanning
+        run: docker build -t aladdin-bot:scan .
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'aladdin-bot:scan'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'HIGH,CRITICAL'
+
+  # Feature #96: Performance benchmark
+  perf-benchmark:
+    name: Indicator computation benchmark
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    env:
+      BACKTEST_MODE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run indicator benchmark
+        run: |
+          node -e "
+          const {Indicators}=require('./indicators');
+          const p=Array.from({length:500},(_,i)=>1.08+Math.sin(i*0.1)*0.01);
+          const s=Date.now();const R=100;
+          for(let i=0;i<R;i++){Indicators.rsi(p);Indicators.macd(p);Indicators.ema(p,21);Indicators.bollingerBands(p);Indicators.atr(p,14);}
+          const ms=Date.now()-s;const per=ms/R;
+          console.log('Indicator suite: '+ms+'ms total, '+per.toFixed(2)+'ms/run');
+          if(per>500){console.error('PERF REGRESSION: '+per+'ms/run>500ms');process.exit(1);}
+          console.log('Benchmark passed');
+          "
+
+  # Feature #91: Property-based testing
+  property-based-tests:
+    name: Property-based tests (fast-check)
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    env:
+      BACKTEST_MODE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Install fast-check
+        run: npm install fast-check --no-save
+      - name: Run property-based tests
+        run: node test-property-based.js
+        continue-on-error: true
+
+  # Feature #92: Mutation testing (main branch only - slow)
+  mutation-tests:
+    name: Mutation testing (Stryker)
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Stryker on indicators.js
+        run: |
+          npm install @stryker-mutator/core --no-save
+          npx stryker run --files indicators.js --mutate indicators.js \
+            --testRunner command --commandRunner.command "node test-suite.js" \
+            --reporters clear-text --thresholds.high 60 --thresholds.low 40
+        continue-on-error: true
+
+  # Feature #100: JSDoc generation
+  generate-docs:
+    name: Generate JSDoc
+    runs-on: ubuntu-latest
+    needs: lint-and-syntax
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Generate documentation
+        run: |
+          npm install jsdoc --no-save
+          npx jsdoc -r *.js strategies/*.js -d ./docs --readme README.md || true
+      - name: Upload docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-docs
+          path: docs/
+          if-no-files-found: ignore

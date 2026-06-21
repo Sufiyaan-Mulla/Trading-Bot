@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+
+  # ── Trading engine ──────────────────────────────────────────────────────────
+  trading:
+    build: .
+    container_name: aladdin-trading
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+      - OANDA_ENV=${OANDA_ENV:-practice}
+      - HEALTH_PORT=8080
+      - METRICS_PORT=9090
+      - DASHBOARD_PORT=3000
+    ports:
+      - "3000:3000"     # dashboard
+      - "8080:8080"     # health
+      - "9090:9090"     # metrics
+    volumes:
+      - ./trade_logs:/app/trade_logs
+      - ./backups:/app/backups
+      - ./config:/app/config
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ── Nightly backtest (runs once at 02:00 UTC) ───────────────────────────────
+  nightly:
+    build: .
+    container_name: aladdin-nightly
+    restart: "no"
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+      - BACKTEST_MODE=true
+    command: ["node", "backtest-nightly.js"]
+    volumes:
+      - ./trade_logs:/app/trade_logs
+    profiles: ["nightly"]   # only starts with: docker compose --profile nightly up
+
+volumes:
+  trade_logs:
+  backups:
+  config:

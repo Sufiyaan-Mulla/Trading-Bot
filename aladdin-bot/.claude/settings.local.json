@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(node -e \"require\\('jsdom'\\); console.log\\('jsdom ok'\\)\")",
+      "Bash(node -e \"const {JSDOM}=require\\('jsdom'\\); console.log\\('JSDOM version:', require\\('./node_modules/jsdom/package.json'\\).version\\)\")",
+      "Bash(node test-dashboard.js)",
+      "Bash(node test-dashboard-controls.js)",
+      "Bash(node -e \"const {TradingEngine} = require\\('./trading-engine'\\); const e = new TradingEngine\\(\\); console.log\\('runBacktest:', typeof e.runBacktest\\); console.log\\('backtestMode:', e.backtestMode\\);\")",
+      "Bash(node test-exchange-risk.js)"
+    ]
+  }
+}

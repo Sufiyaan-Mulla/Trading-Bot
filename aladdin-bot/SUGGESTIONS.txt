@@ -1,0 +1,506 @@
+ALADDIN BOT V7 — 100 IMPROVEMENT SUGGESTIONS
+======================================================================
+Based on full codebase audit. Each item is a concrete, implementable
+suggestion with a clear reason and expected benefit.
+======================================================================
+
+
+STRATEGY & SIGNAL GENERATION (20 items)
+----------------------------------------------------------------------
+
+1.  Add a Tokyo session strategy (similar to LondonOpenStrategy) that
+    trades the JPY open at 00:00 UTC. Currently the bot has no Asian-
+    specific logic — Tokyo accounts for ~5% of daily forex volume.
+
+2.  Add a breakout-fade strategy: when price breaks a key level but
+    volume does NOT confirm, fade the move. The existing BreakoutStrategy
+    only trades confirmed breakouts, missing the majority of false
+    breakouts that are tradeable in the opposite direction.
+
+3.  Add a news-driven mean-reversion strategy: after a high-impact
+    news event, price often overshoots and reverts. Enter 15-30 min
+    after the event (once the blackout lifts) in the reversion direction.
+
+4.  Add a currency strength matrix that ranks all 8 major currencies
+    (USD, EUR, GBP, JPY, AUD, CAD, CHF, NZD) individually by their
+    average strength against all peers. Trade the strongest vs weakest
+    pair rather than only pre-configured pairs.
+
+5.  Add a carry trade strategy layer: automatically identify pairs where
+    interest rate differential > 2% (from swap rates already in
+    TRADING_CONFIG.swapCosts) and size up long positions in high-carry
+    pairs during low-volatility regimes.
+
+6.  Add an Asian range breakout strategy: track the USDJPY/AUDUSD high
+    and low from 00:00–08:00 UTC (Asian range), then trade the breakout
+    when London opens at 08:00. A well-known institutional pattern.
+
+7.  Add divergence detection: when price makes a new high but RSI makes
+    a lower high (bearish divergence), or price makes a new low but RSI
+    makes a higher low (bullish divergence). Currently no strategy uses
+    divergence signals.
+
+8.  Add a momentum reversal detector: 3 consecutive same-direction
+    closes with declining volume typically signals exhaustion. Enters
+    counter-trend once the volume decline is confirmed.
+
+9.  Add calendar spread awareness: track the spread between near/far
+    futures contracts (from COT data already being fetched). Extreme
+    contango or backwardation in FX futures often precedes directional
+    moves.
+
+10. Add a multi-pair basket strategy: when EUR/USD, GBP/USD, and
+    AUD/USD all show BUY signals simultaneously, enter all three with
+    1/3 normal size each. The correlation reduces single-pair risk while
+    capturing the USD weakness theme.
+
+11. Add a volatility breakout strategy using Bollinger Band squeeze:
+    when BB width compresses to its lowest 10-percentile over 100 bars,
+    set an alert for an imminent expansion. Enter in the direction of the
+    first 2-bar close outside the band.
+
+12. Add overnight gap fade strategy: measure the gap between Friday's
+    close and Sunday/Monday's open. Gaps > 0.3% tend to fill within the
+    first session — fade the gap direction with tight stops.
+
+13. Add a support/resistance level mapper that identifies historical
+    price clusters with high touch-count (> 3 touches). Block entries
+    within 5 pips of a major level; instead trade the bounce or break.
+
+14. Add a higher timeframe confluence filter: before any H1 entry, check
+    that the daily (D1) candle body trend agrees. Currently RegimeStack
+    uses D1 data but does not enforce D1 trend alignment as a hard gate.
+
+15. Add a fair value gap (FVG) / imbalance detector: when a candle's
+    low is above the previous candle's high (bullish FVG), mark the zone
+    as a buy area. Institutional traders actively fill these gaps.
+
+16. Add a spread-normalised momentum indicator: divide the price rate-of-
+    change by the current bid-ask spread. This identifies momentum that
+    is large relative to trading costs, filtering out moves too small to
+    profit from after spread.
+
+17. Add a time-of-day performance heatmap that weights entries by their
+    historical profitability per 30-minute UTC window. Currently
+    TimeHeatmap exists but is stored by hour — 30-min granularity is
+    more precise for intraday forex.
+
+18. Add a pairs correlation divergence strategy: when two normally
+    correlated pairs (e.g. EUR/USD and GBP/USD, r > 0.85) diverge by
+    > 1.5 standard deviations, trade the convergence. Separate from the
+    existing correlation engine which only blocks correlated entries.
+
+19. Add an order block detector: identify the last up/down candle before
+    a strong impulsive move (institutional order blocks). These zones
+    act as future support/resistance with measurable edge.
+
+20. Add an economic surprise model: compare actual data releases vs
+    analyst consensus (from a free calendar API). Positive/negative
+    surprises have directional predictive power for 30-60 minutes.
+
+
+RISK MANAGEMENT (15 items)
+----------------------------------------------------------------------
+
+21. Add a portfolio heat limit: cap the total concurrent risk across ALL
+    open positions at 3% of equity. Currently SectorCap limits sector
+    exposure but there is no global "portfolio heat" ceiling.
+
+22. Add a maximum daily trade count limit (e.g. 10 per day). Over-
+    trading is a known path to ruin — busy days with 20+ signals often
+    produce worse outcomes than filtered 5-signal days.
+
+23. Add a losing streak scaling: after 3 consecutive losses, reduce
+    position size to 50% until a winning trade occurs. After 5 losses,
+    reduce to 25%. Currently consecutive-loss circuit breaker only halts,
+    it doesn't gracefully scale down.
+
+24. Add a Calmar ratio monitor: if the trailing 12-month Calmar ratio
+    (annual return / max drawdown) drops below 0.5, switch to a
+    conservative-only mode that blocks mean-reversion trades and only
+    takes high-confidence trend signals.
+
+25. Add a volatility-adjusted stop loss: when ATR is 2× its 20-bar
+    average (volatility spike), widen stops proportionally rather than
+    using the fixed ATR multiplier. Tight stops in high-vol regimes
+    produce unnecessary stop-outs.
+
+26. Add a margin utilisation monitor: calculate current margin used as
+    a percentage of account equity. Block new positions when margin
+    utilisation > 20% to preserve buffer for adverse moves.
+
+27. Add a max hold time rule: automatically exit any position held > 48
+    hours that has not hit stop or take-profit. Stale positions decay
+    in edge and accumulate overnight swap costs.
+
+28. Add a news-aware stop tightening: 5 minutes before a scheduled
+    HIGH-impact event, tighten the stop on any open position to 50% of
+    normal ATR multiple to protect against gap risk at the event.
+
+29. Add a position age decay: as a position ages beyond 4 hours without
+    hitting its target, gradually reduce take-profit distance and tighten
+    trailing stop. Edge decays over time.
+
+30. Add a cross-asset crisis detector: if VIX (or XAU/USD spike > 2%
+    in 1 hour) signals a risk-off episode, immediately reduce all
+    position sizes by 50% and widen stops. The leading-indicator fetcher
+    already has DXY/XAU but doesn't use them for crisis detection.
+
+31. Add a weekend risk rule: automatically reduce position size to 25%
+    for any trade opened after 21:00 UTC Friday. Weekend gaps are
+    unhedgeable and the reduced size reflects the overnight risk premium.
+
+32. Add a slippage budget per session: track cumulative slippage in pips
+    per day. If slippage exceeds 5 pips in a session, switch from market
+    to limit orders only for the remainder of the day.
+
+33. Add a correlation clustering: group open positions into clusters by
+    their rolling correlation. If any cluster has > 3 positions with
+    r > 0.7, block new entries to that cluster entirely, not just cap
+    the exposure size.
+
+34. Add a realised vs expected volatility divergence alert: when 1-hour
+    realised vol is more than 2× the daily ATR-implied vol, send a
+    Telegram alert and skip new entries until vol normalises. Indicates
+    a fat-tail event in progress.
+
+35. Add a drawdown-velocity alert: if equity drops more than 1% in any
+    30-minute window (regardless of the 48h weekly limit), send an
+    immediate alert and pause new entries for 1 hour.
+
+
+EXECUTION ENGINE (10 items)
+----------------------------------------------------------------------
+
+36. Add OCO (One-Cancels-Other) order support: submit stop-loss and
+    take-profit as a linked pair so that when one fills, the other is
+    automatically cancelled. Currently both are managed manually in
+    exitPosition, creating a window where both could trigger.
+
+37. Add a limit order retry mechanism: if a limit order is not filled
+    within configurable timeMs, automatically re-price to market bid/ask
+    rather than cancelling. Reduces missed fills in fast markets.
+
+38. Add partial position scaling: enter at 50% of target size on initial
+    signal, then add the remaining 50% if price moves in the intended
+    direction by 0.5×ATR within 30 minutes. Pyramiding into winners.
+
+39. Add a spread spike detector in the execution path: if spread widens
+    > 3× normal in the 100ms before order submission (detected from
+    bid/ask history), delay the order by 1 bar. Wide-spread entries
+    dramatically reduce EV.
+
+40. Add execution cost pre-trade calculation: before entering, compute
+    expected round-trip cost (spread + commission + estimated slippage)
+    as a fraction of the expected move. If cost > 30% of expected move,
+    block the entry.
+
+41. Add an order replay log: persist every order submission, fill,
+    cancel, and amend to a separate JSONL file (separate from audit log).
+    This enables post-trade execution quality analysis without polluting
+    the main audit log.
+
+42. Add support for trailing stop orders on the broker side (not just
+    software): submit native OANDA trailing stop orders when available.
+    Server-side trailing stops survive disconnections; the current
+    software trail in exitPosition does not.
+
+43. Add a fill quality alert: if 3 consecutive orders have slippage > 2
+    pips, send a Telegram alert and switch to limit orders. ExecutionMetrics
+    already measures slippage but there is no alert trigger on a streak.
+
+44. Add an iceberg order mode for large positions: when positionSize >
+    2× the average trade value, split into 3 iceberg slices with random
+    30–90 second intervals between each slice to avoid market impact.
+
+45. Add a minimum holding period: block exit signals within the first
+    5 minutes of entering a position. Prevents stop-hunting noise from
+    triggering premature exits on the same bar as entry.
+
+
+DATA & MARKET INTELLIGENCE (15 items)
+----------------------------------------------------------------------
+
+46. Add a real news sentiment API integration: replace the synthetic
+    NewsFilter event list with a live feed from NewsAPI.org or similar
+    (free tier available). Currently all news events are manually seeded
+    or approximated.
+
+47. Add Fear & Greed Index polling: fetch the CNN Fear & Greed Index
+    daily (free, public endpoint). When Fear & Greed < 25 (extreme fear),
+    reduce position sizes by 30%. When > 75 (extreme greed), apply the
+    same reduction.
+
+48. Add real-time economic calendar from ForexFactory or Investing.com:
+    scrape the free weekly calendar rather than maintaining a static
+    FOMC/ECB schedule. Events shift dates quarterly and the current
+    approximation will drift.
+
+49. Add options market implied volatility: fetch USD/EUR 1-week implied
+    vol from CME or Yahoo Finance (free). When IV > 20%, widen all stops
+    by 25%. When IV < 8%, tighten them by 15%.
+
+50. Add a retail sentiment indicator from broker COT reports: OANDA and
+    IG publish real-time retail long/short ratios for free. These are
+    strong contrarian signals — when > 75% of retail are long, bias
+    toward short.
+
+51. Add a G10 rate differential tracker: maintain a table of central
+    bank policy rates and compute the rate differential for each traded
+    pair. High differential = carry trade tailwind; include it as a
+    feature in the ML model.
+
+52. Add a geopolitical risk score: subscribe to a free geopolitical risk
+    index (e.g. GPRC from Fed Atlanta) or compute a proxy from news
+    headline sentiment. Reduce risk exposure when geopolitical risk
+    index > historical 90th percentile.
+
+53. Add GDP surprise and PMI data: track the monthly GDP and PMI releases
+    for USD/EUR/GBP/JPY. Persistent above-consensus PMI (3+ months) is a
+    strong directional driver that complements the existing economic calendar.
+
+54. Add a cross-market signal from equity index futures: when S&P 500
+    futures are down > 1% pre-open, reduce USD long exposure (risk-off
+    correlation). The leading-indicator fetcher has XAU but not SPX.
+
+55. Add Bitcoin as a leading risk indicator: BTC/USD has shown strong
+    correlation with risk-on/risk-off episodes. A BTC > 3% drop within
+    1 hour often precedes USD strength and AUD/NZD weakness.
+
+56. Add a yield curve slope monitor: track the US 2Y-10Y spread (free
+    from FRED API). Yield curve inversion historically precedes USD
+    weakness 6-12 months later — use as a medium-term regime bias input.
+
+57. Add tick data aggregation for better VWAP: the current VWAP
+    estimation uses M5 close prices. Accumulating actual tick volume per
+    bar would give a more accurate VWAP, improving entry quality.
+
+58. Add a real-time swap/funding rate feed: OANDA provides live swap
+    rates via API. Use these to dynamically adjust the carry component
+    in price-divergence.js rather than the static TRADING_CONFIG.swapCosts
+    table.
+
+59. Add seasonal pattern detection: some pairs have statistically
+    significant seasonal tendencies (e.g. USD tends to strengthen in
+    September). Include a monthly seasonal bias factor that slightly
+    tilts Kelly sizing in the seasonal direction.
+
+60. Add a central bank meeting calendar countdown: beyond the existing
+    blackout, track the number of trading days until the next central
+    bank decision and gradually reduce position sizes as the date
+    approaches (the "pre-FOMC drift" reduces edge 2 days before).
+
+
+BACKTESTING & VALIDATION (10 items)
+----------------------------------------------------------------------
+
+61. Add a transaction cost sensitivity analysis: re-run every backtest
+    at 1×, 1.5×, and 2× current commission/slippage assumptions and
+    report which strategies remain profitable. Strategies that break
+    even at 1.5× cost are fragile.
+
+62. Add a regime-conditional backtest: explicitly test each strategy
+    only on data classified as its target regime. TrendStrategy should
+    only be benchmarked on TRENDING periods, not RANGING ones.
+
+63. Add a live-vs-backtest performance tracker: maintain a running
+    comparison of live trading performance vs the most recent walk-
+    forward estimate. Alert when live Sharpe deviates > 1σ from
+    backtest expectation.
+
+64. Add a multi-currency backtest: test all 8 major pairs simultaneously
+    under the same parameter set. A strategy that only works on EUR/USD
+    but fails on GBP/USD is likely curve-fitted to EUR/USD microstructure.
+
+65. Add a tick-level replay mode: instead of M5 OHLCV candles, replay
+    backtest using M1 candles to simulate more realistic intrabar
+    execution. Avoids look-ahead bias in stop and limit fills.
+
+66. Add a stress test module: replay the backtest over known historical
+    crisis periods (2008 GFC, 2015 CHF unpeg, 2020 COVID crash, 2022
+    USD rally) and report maximum drawdown. The Monte Carlo exists but
+    doesn't use real crisis data.
+
+67. Add a benchmark comparison: compute the bot's Sharpe, Calmar, and
+    total return vs a simple buy-and-hold EUR/USD strategy and a moving-
+    average crossover system. Without a benchmark, outperformance cannot
+    be assessed.
+
+68. Add a bootstrap confidence interval for strategy metrics: report
+    the 5th–95th percentile range for Sharpe ratio and max drawdown
+    from the block bootstrap, not just point estimates.
+
+69. Add a forward test lock: once a parameter set passes walk-forward,
+    lock it for a minimum 30-day forward test at paper trading before
+    applying to live. Currently auto-grid can push params to live within
+    minutes of a passing backtest.
+
+70. Add slippage impact modelling in backtests: currently backtest uses
+    a fixed slippage fraction. Model it as a function of position size
+    relative to average volume — large-for-the-market orders face
+    proportionally higher slippage.
+
+
+MONITORING & OBSERVABILITY (10 items)
+----------------------------------------------------------------------
+
+71. Add a Grafana-compatible metrics export: extend the Prometheus
+    endpoint to include trade-level histograms (fill latency, slippage,
+    win rate by hour) so operators can build real-time dashboards.
+
+72. Add a P&L attribution breakdown: report separately how much profit
+    came from each strategy, session, and currency pair. Currently the
+    audit log has the raw data but no aggregation tool exists.
+
+73. Add a daily performance email/webhook report: send a structured daily
+    summary (trades, P&L, drawdown, open positions) via email or Discord
+    webhook at 00:00 UTC. Currently only Telegram alerts on events.
+
+74. Add a system resource monitor: track CPU%, memory MB, and Node.js
+    event loop lag. Alert if event loop lag > 100ms (tick processing
+    backlog) or memory > 400MB (possible memory leak).
+
+75. Add a data feed health dashboard: show per-source latency (OANDA,
+    Alpha Vantage, COT) and freshness. Currently price-divergence.js
+    tracks staleness but there is no aggregated view.
+
+76. Add an anomaly detector for trade metrics: using a rolling z-score,
+    alert when any metric (average fill latency, slippage, win rate)
+    deviates > 2σ from its 30-day rolling mean. Catches execution
+    degradation before it becomes visible in P&L.
+
+77. Add a position reconciliation report: every hour, log a reconciliation
+    between what the local state says is open and what OANDA's API shows.
+    Any mismatch triggers an immediate alert. Uses the existing
+    OandaReadonlyClient.
+
+78. Add a kill-switch via Telegram command: allow the operator to send
+    `/halt` or `/resume` to the Telegram bot and have the engine respond.
+    Currently halts are only triggered by automated rules, not manually.
+
+79. Add structured logging with log levels (DEBUG/INFO/WARN/ERROR):
+    the current `this.log()` is a flat console.log. Structured logs
+    (JSON per line with level, module, timestamp) enable log aggregation
+    tools like Datadog or ELK.
+
+80. Add a weekly performance review auto-report: every Monday at 09:00
+    UTC, generate and email a PDF/HTML report summarising the past week:
+    P&L, drawdown, trade count, best/worst trade, regime breakdown.
+
+
+DEPLOYMENT & OPERATIONS (10 items)
+----------------------------------------------------------------------
+
+81. Add a blue/green deployment mode: run a new bot version in shadow
+    mode (taking signals but not executing) alongside the live bot for
+    48 hours before switching. Prevents regressions from reaching live
+    capital.
+
+82. Add a Kubernetes/Helm chart: extend the existing Docker setup with
+    a Helm chart for Kubernetes deployment. Enables auto-scaling of
+    non-trading workers (backtest runners) and better secret management
+    via K8s Secrets.
+
+83. Add a database migration system: as the schema evolves, add a
+    migrations/ folder with numbered SQL files. Currently the DB is
+    rebuilt from scratch on schema changes, losing historical data.
+
+84. Add a secrets manager integration (AWS Secrets Manager or HashiCorp
+    Vault): currently secrets are in .env files. On a production server,
+    secrets should be fetched at startup from a vault, not stored on disk.
+
+85. Add a canary release system for strategy parameters: after auto-grid
+    finds new params, apply them to 10% of capital for 24 hours. If
+    performance is within expectation, promote to 100%. Prevents a bad
+    parameter set from immediately impacting full capital.
+
+86. Add automated infrastructure monitoring with alerts: monitor that
+    the PM2 process, health endpoint, and OANDA connectivity are all up.
+    If any check fails for > 2 minutes, send a PagerDuty/Telegram alert.
+
+87. Add a daily .env integrity check: at startup, verify that all
+    required environment variables are set AND that the API keys are
+    valid by making a test request to each API. Fail fast with a clear
+    error rather than discovering a bad key mid-trade.
+
+88. Add a trading session scheduler: allow configuring specific hours
+    when the bot is active per day (e.g. only London and NY sessions).
+    Currently the bot either runs 24/7 or not at all.
+
+89. Add a multi-account support mode: allow the bot to manage multiple
+    OANDA sub-accounts simultaneously (e.g. aggressive and conservative
+    risk profiles on separate accounts).
+
+90. Add an audit log shipping to cloud storage: periodically upload
+    trade_logs/ to an S3-compatible bucket (MinIO for self-hosted).
+    Local disk failure should not result in lost trade history.
+
+
+MACHINE LEARNING & ADVANCED FEATURES (10 items)
+----------------------------------------------------------------------
+
+91. Add online learning for the confidence calibrator: currently Platt
+    scaling parameters are fit at startup. Implement streaming updates
+    that adjust calibration after each closed trade, keeping calibration
+    accurate as market conditions drift.
+
+92. Add a transformer-based sequence model for regime detection: replace
+    or augment the ADX-based regime classifier with a small transformer
+    trained on OHLCV sequences. Even a 2-layer model with 16 hidden units
+    can capture non-linear regime transitions.
+
+93. Add feature importance tracking: after each closed trade, record
+    which indicator features (RSI, MACD, ADX, session, etc.) had the
+    highest influence on the decision. Accumulate these over time to
+    identify which features are becoming less predictive.
+
+94. Add Bayesian parameter updating: instead of periodic grid search,
+    update strategy parameters continuously using a Bayesian posterior
+    from closed trade outcomes. The Bayesian optimizer exists but is not
+    connected to the live parameter update loop.
+
+95. Add a market regime forecast horizon: the current regime stack
+    classifies the CURRENT regime. Add a forecaster that estimates the
+    PROBABILITY of regime change in the next 4 hours, allowing
+    pre-emptive size reduction before a regime transition.
+
+96. Add an adversarial robustness test: deliberately inject noisy or
+    shifted input data during backtesting and measure how much strategy
+    performance degrades. Strategies that are robust to input noise are
+    less likely to fail on live data quality issues.
+
+97. Add a neural network-based price impact model: given the current
+    order size and market depth, predict expected slippage. Train on
+    historical fills stored in the execution log. Use this to adjust
+    Kelly sizing downward for large orders.
+
+98. Add a multi-agent strategy tournament: run 5-10 strategy variants
+    in a simulated tournament (similar to A/B testing but multi-armed)
+    and continuously allocate capital to the current best performer via
+    a multi-armed bandit algorithm.
+
+99. Add transfer learning from related instruments: pre-train the ML
+    model on liquid instruments (EUR/USD, GBP/USD, USD/JPY) and fine-tune
+    on less-liquid pairs (NZD/USD, USD/CAD). This addresses the sparse
+    data problem for exotic pairs.
+
+100. Add a model explainability layer (SHAP values): for every BUY/SELL
+     decision above 80% confidence, compute SHAP values showing which
+     input features drove the signal. Log these and surface them in the
+     dashboard. Operators should be able to understand why the bot
+     entered a trade.
+
+
+IMPLEMENTATION PRIORITY
+----------------------------------------------------------------------
+Immediate (highest ROI, low complexity):
+  22, 27, 31, 40, 46, 48, 72, 73, 74, 87
+
+Short-term (high value, medium complexity):
+  1, 2, 4, 21, 23, 24, 36, 47, 50, 61, 63, 78, 88
+
+Medium-term (meaningful edge improvement):
+  5, 6, 13, 14, 25, 30, 38, 51, 64, 69, 71, 79, 91
+
+Long-term (advanced, requires R&D):
+  92, 93, 94, 95, 98, 99, 100

@@ -1,0 +1,1286 @@
+[
+  {
+    "id": "TYPE_A-1779101261153",
+    "modelType": "TYPE_A",
+    "version": 7,
+    "registeredAt": "2026-05-18T10:47:41.153Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779101261153",
+    "modelType": "TYPE_B",
+    "version": 7,
+    "registeredAt": "2026-05-18T10:47:41.153Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779101333522",
+    "modelType": "TEST_MODEL",
+    "version": 8,
+    "registeredAt": "2026-05-18T10:48:53.522Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779101333523",
+    "modelType": "TEST_V2",
+    "version": 17,
+    "registeredAt": "2026-05-18T10:48:53.523Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779101333523",
+    "modelType": "TEST_V2",
+    "version": 18,
+    "registeredAt": "2026-05-18T10:48:53.523Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779101333524",
+    "modelType": "ROLLBACK_TEST",
+    "version": 15,
+    "registeredAt": "2026-05-18T10:48:53.524Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779101333524",
+    "modelType": "ROLLBACK_TEST",
+    "version": 16,
+    "registeredAt": "2026-05-18T10:48:53.524Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779101333525",
+    "modelType": "TYPE_A",
+    "version": 8,
+    "registeredAt": "2026-05-18T10:48:53.525Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779101333525",
+    "modelType": "TYPE_B",
+    "version": 8,
+    "registeredAt": "2026-05-18T10:48:53.525Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779102140148",
+    "modelType": "TEST_MODEL",
+    "version": 9,
+    "registeredAt": "2026-05-18T11:02:20.148Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779102140149",
+    "modelType": "TEST_V2",
+    "version": 19,
+    "registeredAt": "2026-05-18T11:02:20.149Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779102140150",
+    "modelType": "TEST_V2",
+    "version": 20,
+    "registeredAt": "2026-05-18T11:02:20.150Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779102140150",
+    "modelType": "ROLLBACK_TEST",
+    "version": 17,
+    "registeredAt": "2026-05-18T11:02:20.150Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779102140150",
+    "modelType": "ROLLBACK_TEST",
+    "version": 18,
+    "registeredAt": "2026-05-18T11:02:20.150Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779102140151",
+    "modelType": "TYPE_A",
+    "version": 9,
+    "registeredAt": "2026-05-18T11:02:20.151Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779102140151",
+    "modelType": "TYPE_B",
+    "version": 9,
+    "registeredAt": "2026-05-18T11:02:20.151Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779143675055",
+    "modelType": "TEST_MODEL",
+    "version": 10,
+    "registeredAt": "2026-05-18T22:34:35.055Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779143675056",
+    "modelType": "TEST_V2",
+    "version": 21,
+    "registeredAt": "2026-05-18T22:34:35.056Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779143675056",
+    "modelType": "TEST_V2",
+    "version": 22,
+    "registeredAt": "2026-05-18T22:34:35.056Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779143675057",
+    "modelType": "ROLLBACK_TEST",
+    "version": 19,
+    "registeredAt": "2026-05-18T22:34:35.057Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779143675057",
+    "modelType": "ROLLBACK_TEST",
+    "version": 20,
+    "registeredAt": "2026-05-18T22:34:35.057Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779143675058",
+    "modelType": "TYPE_A",
+    "version": 10,
+    "registeredAt": "2026-05-18T22:34:35.058Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779143675058",
+    "modelType": "TYPE_B",
+    "version": 10,
+    "registeredAt": "2026-05-18T22:34:35.058Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779143765825",
+    "modelType": "TEST_MODEL",
+    "version": 11,
+    "registeredAt": "2026-05-18T22:36:05.825Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779143765826",
+    "modelType": "TEST_V2",
+    "version": 23,
+    "registeredAt": "2026-05-18T22:36:05.826Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779143765826",
+    "modelType": "TEST_V2",
+    "version": 24,
+    "registeredAt": "2026-05-18T22:36:05.826Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779143765827",
+    "modelType": "ROLLBACK_TEST",
+    "version": 21,
+    "registeredAt": "2026-05-18T22:36:05.827Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779143765827",
+    "modelType": "ROLLBACK_TEST",
+    "version": 22,
+    "registeredAt": "2026-05-18T22:36:05.827Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779143765828",
+    "modelType": "TYPE_A",
+    "version": 11,
+    "registeredAt": "2026-05-18T22:36:05.828Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779143765828",
+    "modelType": "TYPE_B",
+    "version": 11,
+    "registeredAt": "2026-05-18T22:36:05.828Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779143794738",
+    "modelType": "TEST_MODEL",
+    "version": 12,
+    "registeredAt": "2026-05-18T22:36:34.738Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779143794740",
+    "modelType": "TEST_V2",
+    "version": 25,
+    "registeredAt": "2026-05-18T22:36:34.740Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779143794740",
+    "modelType": "TEST_V2",
+    "version": 26,
+    "registeredAt": "2026-05-18T22:36:34.740Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779143794740",
+    "modelType": "ROLLBACK_TEST",
+    "version": 23,
+    "registeredAt": "2026-05-18T22:36:34.740Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779143794741",
+    "modelType": "ROLLBACK_TEST",
+    "version": 24,
+    "registeredAt": "2026-05-18T22:36:34.741Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779143794742",
+    "modelType": "TYPE_A",
+    "version": 12,
+    "registeredAt": "2026-05-18T22:36:34.742Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779143794742",
+    "modelType": "TYPE_B",
+    "version": 12,
+    "registeredAt": "2026-05-18T22:36:34.742Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779145185029",
+    "modelType": "TEST_MODEL",
+    "version": 13,
+    "registeredAt": "2026-05-18T22:59:45.029Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779145185031",
+    "modelType": "TEST_V2",
+    "version": 27,
+    "registeredAt": "2026-05-18T22:59:45.031Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779145185031",
+    "modelType": "TEST_V2",
+    "version": 28,
+    "registeredAt": "2026-05-18T22:59:45.031Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779145185032",
+    "modelType": "ROLLBACK_TEST",
+    "version": 25,
+    "registeredAt": "2026-05-18T22:59:45.032Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779145185032",
+    "modelType": "ROLLBACK_TEST",
+    "version": 26,
+    "registeredAt": "2026-05-18T22:59:45.032Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779145185033",
+    "modelType": "TYPE_A",
+    "version": 13,
+    "registeredAt": "2026-05-18T22:59:45.033Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779145185033",
+    "modelType": "TYPE_B",
+    "version": 13,
+    "registeredAt": "2026-05-18T22:59:45.033Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779145269156",
+    "modelType": "TEST_MODEL",
+    "version": 14,
+    "registeredAt": "2026-05-18T23:01:09.156Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779145269158",
+    "modelType": "TEST_V2",
+    "version": 29,
+    "registeredAt": "2026-05-18T23:01:09.158Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779145269158",
+    "modelType": "TEST_V2",
+    "version": 30,
+    "registeredAt": "2026-05-18T23:01:09.158Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779145269159",
+    "modelType": "ROLLBACK_TEST",
+    "version": 27,
+    "registeredAt": "2026-05-18T23:01:09.159Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779145269159",
+    "modelType": "ROLLBACK_TEST",
+    "version": 28,
+    "registeredAt": "2026-05-18T23:01:09.159Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779145269160",
+    "modelType": "TYPE_A",
+    "version": 14,
+    "registeredAt": "2026-05-18T23:01:09.160Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779145269160",
+    "modelType": "TYPE_B",
+    "version": 14,
+    "registeredAt": "2026-05-18T23:01:09.160Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779145516321",
+    "modelType": "TEST_MODEL",
+    "version": 15,
+    "registeredAt": "2026-05-18T23:05:16.321Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779145516322",
+    "modelType": "TEST_V2",
+    "version": 31,
+    "registeredAt": "2026-05-18T23:05:16.322Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779145516323",
+    "modelType": "TEST_V2",
+    "version": 31,
+    "registeredAt": "2026-05-18T23:05:16.323Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779145516323",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-18T23:05:16.323Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779145516324",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-18T23:05:16.324Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779145516324",
+    "modelType": "TYPE_A",
+    "version": 15,
+    "registeredAt": "2026-05-18T23:05:16.324Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779145516325",
+    "modelType": "TYPE_B",
+    "version": 15,
+    "registeredAt": "2026-05-18T23:05:16.325Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779186012114",
+    "modelType": "TEST_MODEL",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:20:12.114Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779186012115",
+    "modelType": "TEST_V2",
+    "version": 31,
+    "registeredAt": "2026-05-19T10:20:12.115Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779186012116",
+    "modelType": "TEST_V2",
+    "version": 31,
+    "registeredAt": "2026-05-19T10:20:12.116Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779186012116",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:20:12.116Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779186012117",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:20:12.117Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779186012118",
+    "modelType": "TYPE_A",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:20:12.118Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779186012118",
+    "modelType": "TYPE_B",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:20:12.118Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779187079746",
+    "modelType": "TEST_MODEL",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:37:59.746Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187079747",
+    "modelType": "TEST_V2",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:37:59.747Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187079748",
+    "modelType": "TEST_V2",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:37:59.748Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187079748",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:37:59.748Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187079749",
+    "modelType": "ROLLBACK_TEST",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:37:59.749Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779187079749",
+    "modelType": "TYPE_A",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:37:59.749Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779187079750",
+    "modelType": "TYPE_B",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:37:59.750Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779187085579",
+    "modelType": "TEST_MODEL",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:05.579Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187085580",
+    "modelType": "TEST_V2",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:05.580Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187085580",
+    "modelType": "TEST_V2",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:05.580Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187085581",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:05.581Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187085581",
+    "modelType": "ROLLBACK_TEST",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:05.581Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779187085582",
+    "modelType": "TYPE_A",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:05.582Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779187085582",
+    "modelType": "TYPE_B",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:05.582Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779187091960",
+    "modelType": "TEST_MODEL",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:11.960Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187091961",
+    "modelType": "TEST_V2",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:11.961Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187091961",
+    "modelType": "TEST_V2",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:11.961Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187091962",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:11.962Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187091962",
+    "modelType": "ROLLBACK_TEST",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:11.962Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779187091963",
+    "modelType": "TYPE_A",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:11.963Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779187091963",
+    "modelType": "TYPE_B",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:11.963Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779187094545",
+    "modelType": "TEST_MODEL",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:14.545Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187094546",
+    "modelType": "TEST_V2",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:14.546Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187094546",
+    "modelType": "TEST_V2",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:14.546Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187094547",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:14.547Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187094547",
+    "modelType": "ROLLBACK_TEST",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:14.547Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779187094548",
+    "modelType": "TYPE_A",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:14.548Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_B-1779187094548",
+    "modelType": "TYPE_B",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:14.548Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_MODEL-1779187123693",
+    "modelType": "TEST_MODEL",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:43.693Z",
+    "params": {
+      "alpha": 0.1
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": true
+  },
+  {
+    "id": "TEST_V2-1779187123694",
+    "modelType": "TEST_V2",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:43.694Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {
+      "sharpe": 1.2
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TEST_V2-1779187123695",
+    "modelType": "TEST_V2",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:43.695Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {
+      "sharpe": 1.5
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": true
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187123695",
+    "modelType": "ROLLBACK_TEST",
+    "version": 29,
+    "registeredAt": "2026-05-19T10:38:43.695Z",
+    "params": {
+      "v": 1
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": true
+  },
+  {
+    "id": "ROLLBACK_TEST-1779187123695",
+    "modelType": "ROLLBACK_TEST",
+    "version": 30,
+    "registeredAt": "2026-05-19T10:38:43.695Z",
+    "params": {
+      "v": 2
+    },
+    "metrics": {},
+    "dataHash": "e3b0c44298fc1c14",
+    "active": false
+  },
+  {
+    "id": "TYPE_A-1779187123696",
+    "modelType": "TYPE_A",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:43.696Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 1
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": true
+  },
+  {
+    "id": "TYPE_B-1779187123696",
+    "modelType": "TYPE_B",
+    "version": 15,
+    "registeredAt": "2026-05-19T10:38:43.696Z",
+    "params": {},
+    "metrics": {
+      "sharpe": 0.8
+    },
+    "dataHash": "e3b0c44298fc1c14",
+    "active": true
+  }
+]

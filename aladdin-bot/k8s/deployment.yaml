@@ -1,0 +1,147 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aladdin-bot
+  labels:
+    app: aladdin-bot
+    version: v8
+spec:
+  replicas: 1          # MUST be 1 — engine is stateful, not horizontally scalable
+  strategy:
+    type: Recreate     # No rolling update — state must fully stop before new pod starts
+  selector:
+    matchLabels:
+      app: aladdin-bot
+  template:
+    metadata:
+      labels:
+        app: aladdin-bot
+    spec:
+      containers:
+      - name: aladdin-bot
+        image: aladdin-bot:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: health
+        - containerPort: 3000
+          name: backend
+        env:
+        - name: NODE_ENV
+          value: production
+        - name: OANDA_ENV
+          value: practice
+        - name: HEALTH_PORT
+          value: "8080"
+        # Secrets loaded from Kubernetes Secret (Feature #70)
+        - name: OANDA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aladdin-secrets
+              key: OANDA_API_KEY
+        - name: OANDA_ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              name: aladdin-secrets
+              key: OANDA_ACCOUNT
+        - name: TELEGRAM_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: aladdin-secrets
+              key: TELEGRAM_BOT_TOKEN
+        - name: TELEGRAM_CHAT_ID
+          valueFrom:
+            secretKeyRef:
+              name: aladdin-secrets
+              key: TELEGRAM_CHAT_ID
+        - name: ANTHROPIC_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aladdin-secrets
+              key: ANTHROPIC_API_KEY
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          failureThreshold: 5
+        volumeMounts:
+        - name: trade-logs
+          mountPath: /app/trade_logs
+        - name: config-override
+          mountPath: /app/config/overrides.json
+          subPath: overrides.json
+      volumes:
+      - name: trade-logs
+        persistentVolumeClaim:
+          claimName: aladdin-trade-logs
+      - name: config-override
+        configMap:
+          name: aladdin-overrides
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aladdin-bot
+spec:
+  selector:
+    app: aladdin-bot
+  ports:
+  - name: health
+    port: 8080
+    targetPort: 8080
+  - name: backend
+    port: 3000
+    targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aladdin-trade-logs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Feature #70: Kubernetes Secret for sensitive credentials
+# Create with: kubectl create secret generic aladdin-secrets \
+#   --from-env-file=.env
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aladdin-secrets
+type: Opaque
+# stringData populated by CI/CD pipeline or 'kubectl create secret'
+# NEVER commit real values here
+stringData:
+  OANDA_API_KEY:       "REPLACE_IN_CI"
+  OANDA_ACCOUNT:       "REPLACE_IN_CI"
+  TELEGRAM_BOT_TOKEN:  "REPLACE_IN_CI"
+  TELEGRAM_CHAT_ID:    "REPLACE_IN_CI"
+  ANTHROPIC_API_KEY:   "REPLACE_IN_CI"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aladdin-overrides
+data:
+  overrides.json: |
+    {}
